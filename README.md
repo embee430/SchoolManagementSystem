@@ -1,36 +1,38 @@
 CBN Creche Management System (CCMS)
+
 CBN Creche Management System is a web-based application built using Django, aimed at helping manage a creche, including child registration, staff management, user roles, attendance, and more.
 
 Features
-User Management:
 
-Role-based access control (Admin, Teacher, Student)
-Registration and authentication
-Manage users (view, add, edit, delete, reset password)
-Child Management:
+1. User Management:
+	a. Role-based access control (Admin, Teacher, Student).
+	b. Registration and authentication
+	c. Manage users (view, add, edit, delete, reset password)
+   
+2. Child Management:
+   	a. Register and view all children
+   	b. Track attendance and progress reports
 
-Register and view all children
-Track attendance and progress reports
-Staff Management:
+3. Staff Management:
+	a. Register and view all staff
+	b. Assign tasks and manage attendance
 
-Register and view all staff
-Assign tasks and manage attendance
-Dashboard:
+4. Dashboard:
+	a. A responsive dashboard with an intuitive user interface
+	b. Sidebar menu
+	c. Search bar for quick navigation
+	d. User profile with logout dropdown
 
-A responsive dashboard with an intuitive user interface
-Sidebar with collapsible menu
-Search bar for quick navigation
-User profile with logout dropdown
-Custom Styling:
+5. Custom Styling:
+	a. Fully customized CSS with Bootstrap integration
+	b. Box-shadow and custom background for dashboard content
+	c. Transparent sidebar with dark background image
 
-Fully customized CSS with Bootstrap integration
-Box-shadow and custom background for dashboard content
-Transparent sidebar with dark background image
-Technologies Used
-Backend: Django (Python)
-Frontend: HTML, CSS, Bootstrap, JavaScript
-Database: SQLite (or any other DB supported by Django)
-Version Control: Git
+6. Technologies Used
+	a. Backend: Django (Python)
+	b. Frontend: HTML, CSS, Bootstrap, JavaScript
+	c. Database: SQLite (or any other DB supported by Django)
+	d. Version Control: Git
 
 Installation
 1. Clone the repository:
