@@ -1,0 +1,86 @@
+{% extends 'dashboard_base.html' %}
+
+{% block dashboard_content %}
+{% load static %}
+<div class="container mt-4">
+    <div class="row">
+        {% for child in children %}
+        <div class="col-lg-2 col-md-4 col-sm-6 mb-4">
+            <div class="card h-100 shadow-sm" style="border-radius: 10px; overflow: hidden;">
+                <!-- Check if child has a passport image, otherwise use a placeholder -->
+                {% if child.passport_image %}
+                    <img src="{{ child.passport_image.url }}" class="card-img-top" alt="{{ child.first_name }}'s Picture" style="height: 150px; object-fit: cover;">
+                {% else %}
+                    <img src="{% static 'images/child.png' %}" class="card-img-top" alt="Default Image" style="height: 150px; object-fit: cover;">
+                {% endif %}
+                
+                <div class="card-body text-center">
+                    <h6 class="card-title mb-1" style="font-size: 0.8rem; font-weight: bold;">{{ child.first_name }} {{ child.last_name }}</h6>
+                    <p class="card-text" style="font-size: 0.5rem; color: #6c757d;">Age: {{ child.age }} years</p>
+                    <a href="#" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#childModal{{ child.id }}" data-child-id="{{ child.id }}" style="font-size: 0.6rem;">View Child</a>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="col-12">
+            <p class="text-center">No children found.</p>
+        </div>
+        {% endfor %}
+    </div>
+
+    <!-- Modal -->
+    {% for child in children %}
+    <div class="modal fade" id="childModal{{ child.id }}" tabindex="-1" aria-labelledby="childModalLabel{{ child.id }}" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="childModalLabel{{ child.id }}">Child Details: {{ child.first_name }} {{ child.last_name }}</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p><strong>Name:</strong> {{ child.first_name }} {{ child.last_name }}</p>
+                    <p><strong>Date of Birth:</strong> {{ child.date_of_birth }}</p>
+                    <p><strong>Parent Name:</strong> {{ child.parent_name }}</p>
+                    <p><strong>Contact Number:</strong> {{ child.contact_number }}</p>
+                    <p><strong>Address:</strong> {{ child.address }}</p>
+                    <p><strong>Gender:</strong> {{ child.get_gender_display }}</p>
+                    {% if child.passport_image %}
+                    <p><strong>Passport Image:</strong></p>
+                    <img src="{{ child.passport_image.url }}" alt="Passport Image" class="img-fluid">
+                    {% else %}
+                    <p>No passport image available.</p>
+                    {% endif %}
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+<script>
+    document.querySelectorAll('[data-bs-toggle="modal"]').forEach(button => {
+        button.addEventListener('click', function() {
+            const childId = this.dataset.childId;
+            const modalBody = document.querySelector(`#childModal${childId} .modal-body`);
+
+            // Fetch the child details from the server
+            fetch(`/child-details/${childId}/`)
+                .then(response => response.json())
+                .then(data => {
+                    modalBody.innerHTML = `
+                        <p><strong>Name:</strong> ${data.first_name} ${data.last_name}</p>
+                        <p><strong>Date of Birth:</strong> ${data.date_of_birth}</p>
+                        <p><strong>Parent Name:</strong> ${data.parent_name}</p>
+                        <p><strong>Contact Number:</strong> ${data.contact_number}</p>
+                        <p><strong>Address:</strong> ${data.address}</p>
+                        <p><strong>Gender:</strong> ${data.gender}</p>
+                        ${data.passport_image_url ? `<img src="${data.passport_image_url}" class="img-fluid">` : 'No passport image available.'}
+                    `;
+                });
+        });
+    });
+</script>
+{% endblock %}

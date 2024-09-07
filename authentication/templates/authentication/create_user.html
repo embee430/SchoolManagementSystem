@@ -1,0 +1,22 @@
+<!-- templates/authentication/create_user.html -->
+{% extends 'dashboard_base.html' %}
+
+{% block dashboard_content %}
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">Register</div>
+            <div class="card-body">
+                <form method="post">
+                    {% csrf_token %}
+                    {{ form|crispy }}
+                    <button type="submit" class="btn btn-primary btn-block">Register</button>
+                </form>
+                <div class="mt-3 text-center">
+                    <a href="{% url 'login' %}">Already have an account? Login here.</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
